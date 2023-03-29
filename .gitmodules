@@ -1,0 +1,3 @@
+[submodule "swig/extern/ABY"]
+	path = swig/extern/ABY
+	url = https://github.com/encryptogroup/ABY.git

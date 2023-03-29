@@ -21,3 +21,24 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# IntelliJ IDEA #
+.idea
+*.iws
+*.iml
+*.ipr
+
+# aby
+swig/build/
+
+# build files
+release/
+
+/src/main/java/com/hufudb/openhufu/mpc/aby/party/abyparty4j.java
+/src/main/java/com/hufudb/openhufu/mpc/aby/party/abyparty4jJNI.java
+/src/main/java/com/hufudb/openhufu/mpc/aby/party/e_mt_gen_alg.java
+/src/main/java/com/hufudb/openhufu/mpc/aby/party/e_role.java
+/src/main/java/com/hufudb/openhufu/mpc/aby/party/e_sharing.java
+/src/main/java/com/hufudb/openhufu/mpc/aby/party/Party.java
+/src/main/java/com/hufudb/openhufu/mpc/aby/party/SWIGTYPE_p_seclvl.java
+/src/main/java/com/hufudb/openhufu/mpc/aby/party/aby4j_partyJAVA_wrap.cxx
