@@ -1,7 +1,5 @@
-name: CI Workflow
+name: Build CI Workflow
 on:
-  push:
-    branches: ["main"]
   pull_request:
     branches: ["main"]
 
@@ -17,18 +15,11 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Set up Node 16
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
     - name: Install ABY dependencies
       run: sudo apt-get -y update && sudo apt-get -y install libboost-all-dev
     - name: Download Submodule ABY
       run: git submodule update --init
     - name: Build OpenHuFu-Plugin with Maven
       run: ./package.sh
-    - name: Upload Hu-Fu Release Artifact
-      uses: actions/upload-artifact@v3.1.0
-      with:
-        name: OpenHuFu-Plugin-release
-        path: release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

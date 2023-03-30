@@ -7,7 +7,7 @@ mkdir -p ${LD_LIBRARY_PATH}
 cd swig/
 rm -rf build && mkdir build && cd build
 cmake .. && make -j 8
-cp lib/* ../${LD_LIBRARY_PATH}
-cd ..
+cd ../..
+cp swig/build/lib/* ${LD_LIBRARY_PATH}
 mvn clean install -T 0.5C -Dmaven.test.skip=true
-cp target/*.jar ${OPENHUFU_ROOT}/lib/aby4j.jar
+cp target/*.jar ${LD_LIBRARY_PATH}/aby4j.jar
