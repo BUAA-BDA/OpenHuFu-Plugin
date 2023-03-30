@@ -1,8 +1,8 @@
 package com.hufudb.openhufu.mpc.aby.party;
 
+import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import com.hufudb.openhufu.mpc.codec.OpenHuFuCodec;
 import com.hufudb.openhufu.proto.OpenHuFuData.ColumnType;
 import com.hufudb.openhufu.proto.OpenHuFuPlan.OperatorType;
@@ -34,7 +34,7 @@ public class Aby4jParty {
       case SHORT:
       case INT:
         boolean result = party.GreaterI32(role, pid, OpenHuFuCodec.decodeInt(inputs.get(0)));
-        return ImmutableList.of(OpenHuFuCodec.encodeBoolean(result));
+        return Arrays.asList(OpenHuFuCodec.encodeBoolean(result));
       default:
         throw new UnsupportedOperationException("Unsupport type for aby");
     }

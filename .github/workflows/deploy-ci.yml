@@ -1,0 +1,37 @@
+name: Deploy  CI Workflow
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: maven
+    - name: Install ABY dependencies
+      run: sudo apt-get -y update && sudo apt-get -y install libboost-all-dev
+    - name: Download Submodule ABY
+      run: git submodule update --init
+    - name: Build OpenHuFu-Plugin with Maven
+      run: ./package.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Deploy to GitHub Packages
+      run: ./deploy.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload Hu-Fu Release Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: OpenHuFu-Plugin-release
+        path: release

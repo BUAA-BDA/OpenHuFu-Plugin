@@ -33,6 +33,7 @@ swig/build/
 
 # build files
 release/
+target/
 
 /src/main/java/com/hufudb/openhufu/mpc/aby/party/abyparty4j.java
 /src/main/java/com/hufudb/openhufu/mpc/aby/party/abyparty4jJNI.java
