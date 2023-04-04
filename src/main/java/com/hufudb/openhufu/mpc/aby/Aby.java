@@ -10,6 +10,8 @@ import com.hufudb.openhufu.mpc.ProtocolType;
 import com.hufudb.openhufu.proto.OpenHuFuData.ColumnType;
 import com.hufudb.openhufu.proto.OpenHuFuPlan.OperatorType;
 import com.hufudb.openhufu.proto.OpenHuFuService.OwnerInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Java Wrapper of ABY
@@ -19,6 +21,7 @@ public class Aby implements ProtocolExecutor {
   String address;
   int port;
   Aby4jParty abyParty;
+  private static final Logger LOG = LoggerFactory.getLogger(Aby.class);
 
   public enum Role {
     SERVER, // ALICE
@@ -34,8 +37,6 @@ public class Aby implements ProtocolExecutor {
   public int getOwnId() {
     return self.getId();
   }
-
-
 
   @Override
   public ProtocolType getProtocolType() {
@@ -62,12 +63,6 @@ public class Aby implements ProtocolExecutor {
     this.abyParty = new Aby4jParty(self.getId(), address, port);
   }
 
-  /**
-   * @param parties [Alice.id(CLIENT), Bob.id(SERVER)]
-   * @param args OperatorType, ColumnType, AnotherParty.address, AnotherParty.port
-   * for binary operator, e.g. >, the protocol evaluate Alice.input > Bob.input
-   */
-
   @Override
   public Object run(long taskId, List<Integer> parties, Object... args) throws ProtocolException {
     List<byte[]> inputData = (List<byte[]>) args[0];
@@ -75,14 +70,9 @@ public class Aby implements ProtocolExecutor {
     ColumnType type = (ColumnType) args[2];
     String address = (String) args[3];
     int port = (int) args[4];
-    e_role role = e_role.SERVER;
-    int otherId = parties.get(0);
-    if (parties.get(1) != self.getId()) {
-      // for client, need to connect to server
-      role = e_role.CLIENT;
-      otherId = parties.get(1);
-      abyParty.addClient(otherId, address, port);
-    }
-    return abyParty.runProtocol(opType, type, role, otherId, inputData);
+    boolean shared = (boolean) args[5];
+    e_role role = parties.get(0) == 0? e_role.SERVER : e_role.CLIENT;
+    Object ret = abyParty.runProtocol(opType, type, role, shared, inputData);
+    return ret; 
   }
 }
