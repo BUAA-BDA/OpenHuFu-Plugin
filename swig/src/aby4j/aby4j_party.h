@@ -9,6 +9,7 @@
 #include <abycore/aby/abyparty.h>
 #include <memory>
 #include <map>
+#include <fstream>
 
 namespace aby4j {
   using std::unique_ptr;
@@ -16,23 +17,16 @@ namespace aby4j {
 
   class Party {
   public:
-    Party(uint32_t party_id, const std::string& server_addr, uint16_t server_port, seclvl seclvl = LT, uint32_t bitlen = 32, uint32_t nthreads = 2, e_mt_gen_alg mg_algo = MT_OT, uint32_t reservegates = 65536, const std::string& abycircdir = ABY_CIRCUIT_DIR);
+    Party(uint32_t party_id, const std::string& server_addr, uint16_t server_port);
 
-    bool AddClient(uint32_t party_id, const std::string& client_addr, uint16_t client_port);
-    void Reset(uint32_t party_id);
+    bool GreaterI32(e_role role, int32_t val1, int32_t val2, bool shared=false);
 
-    bool GreaterI32(e_role role, uint32_t pid, int32_t value, e_sharing sharing=S_YAO);
+    int MaxI32(e_role role, int32_t val1, int32_t val2, bool shared=false);
 
+    int MinI32(e_role role, int32_t val1, int32_t val2, bool shared=false);
+    
   private:
-    const uint32_t pid_;
-    const seclvl seclvl_;
-    const uint32_t bitlen_;
-    const uint32_t nthreads_;
-    const e_mt_gen_alg mg_algo_;
-    const uint32_t reservegates_;
-    const std::string abycircdir_;
-    const shared_ptr<ABYParty> server_party_;
-    std::map<uint32_t, shared_ptr<ABYParty>> client_parties_;
+    ABYParty* party_;
   };
 }
 

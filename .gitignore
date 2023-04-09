@@ -28,6 +28,9 @@ hs_err_pid*
 *.iml
 *.ipr
 
+# vscode
+.vscode/
+
 # aby
 swig/build/
 
